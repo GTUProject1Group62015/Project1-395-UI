@@ -30,6 +30,7 @@ private:
     QGraphicsScene *scene;
     QGraphicsEllipseItem *destinationMarker;
     QGraphicsPolygonItem *locationMarker;
+    QGraphicsEllipseItem *nodeLocationsMarker;
     QGraphicsPixmapItem *planPixmap;
 };
 

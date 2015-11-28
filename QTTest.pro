@@ -13,8 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        qttest.cpp
+        qttest.cpp \
+    DijkstrasAlgorithm.cpp \
+    Graph.cpp
 
-HEADERS  += qttest.h
+HEADERS  += qttest.h \
+    DijkstrasAlgorithm.h \
+    Edge.h \
+    Graph.h \
+    Vertex.h
 
 FORMS    += qttest.ui
