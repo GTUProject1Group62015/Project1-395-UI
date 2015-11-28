@@ -40,8 +40,8 @@ public:
 		return vertex_no;
 	}
 
-	inline void setVertex(int no, int x, int y) {
-		vertex_no = no, coor_x = x, coor_y = y;
+    inline void setVertex(int x, int y) {
+        coor_x = x, coor_y = y;
 	}
 	inline bool operator==(const Vertex &a) const {
 		if ((this->coor_x == a.coor_x) && (this->coor_y == a.coor_y)) {

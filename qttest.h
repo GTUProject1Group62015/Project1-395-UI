@@ -8,6 +8,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsPolygonItem>
 #include <QGraphicsPixmapItem>
+#include "Vertex.h"
 
 namespace Ui {
 class QTTest;
@@ -32,6 +33,9 @@ private:
     QGraphicsPolygonItem *locationMarker;
     QGraphicsEllipseItem *nodeLocationsMarker;
     QGraphicsPixmapItem *planPixmap;
+    Vertex locationVertex;
+    Vertex destinationVertex;
+
 };
 
 #endif // QTTEST_H

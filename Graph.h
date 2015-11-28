@@ -29,7 +29,7 @@ public:
 	}
 
 	/*return vertex list*/
-	inline vector<Vertex> getVertexList() {
+	inline vector<Vertex>& getVertexList() {
 		return vertexList;
 	}
 
@@ -72,6 +72,15 @@ public:
 	 * @return vertex vector
 	 */
 	vector<Vertex> shortestPath(Vertex start, Vertex finish);
+
+	/** add vertex,if addition is successful, return this Vertex reference,else returns 0*/
+	Vertex& addVertex(Coor coor);
+
+	/** set edge */
+	bool setEdge(Vertex vSource,Vertex vDest);
+
+	/*set given vertex,no return value*/
+	void setVertex(Vertex &v,Coor newCoor);
 
 private:
 	int directed;
