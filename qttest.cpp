@@ -3,6 +3,8 @@
 #include "Graph.h"
 
 #define MAPPATH "C:/Users/bertugg/Documents/QTWorkspace/QTTest/Project1-395-UI/KatPlaniPP.jpg"
+#define DMWIDTH 40 // Destination Marker Width
+#define NLWIDTH 25 // Node Location Marker Width
 
 QTTest::QTTest(QWidget *parent) :
     QMainWindow(parent),
@@ -48,8 +50,19 @@ QTTest::QTTest(QWidget *parent) :
     g.addVertex(Coor(372,98)); // Arka Cikis İci
     g.addVertex(Coor(356,117)); // Arka Cikis Onu
     g.addVertex(Coor(310,98)); // Z02 Kapi
+    vertexList = g.getVertexList(); // Refers all vertexes
 
-    vertexList = g.getVertexList();
+    /*
+    g.add(Coor(150,165),Coor(180,164));
+    g.add(Coor(180,164),Coor(179,133));
+    g.add(Coor(179,133),Coor(226,165));
+    g.add(Coor(226,165),Coor(223,203));
+    g.add(Coor(198,201),Coor(223,203));
+    g.add(Coor(220,360),Coor(223,203));
+
+    // Get Edge List Must Be Implemented
+    // Shortest Path Must Return Edge List
+    */
 
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
@@ -62,9 +75,10 @@ QTTest::QTTest(QWidget *parent) :
 
 
     // Create Destination Marker on map
-    destinationMarker = scene -> addEllipse(0,0,40,40,blackPen,redBrush);
+    destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
     destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
-    destinationVertex = g.addVertex(Coor(destinationMarker->pos().x(), destinationMarker->pos().y()));
+    destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2,
+                                         destinationMarker->pos().y() + DMWIDTH/2));
 
     // Create User Location Marker
     locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
@@ -74,7 +88,12 @@ QTTest::QTTest(QWidget *parent) :
     // Create Node Locations Marker
     for(uint i = 0; i < vertexList.size(); ++i)
     {
-        nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX(), vertexList[i].getY(),25,25,blackPen,greenBrush);
+        nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX()-NLWIDTH/2,
+                                                  vertexList[i].getY()-NLWIDTH/2,
+                                                  NLWIDTH,
+                                                  NLWIDTH,
+                                                  blackPen,
+                                                  greenBrush);
     }
     for(uint i = 0; i < vertexList.size()-1; ++i)
     {
@@ -94,9 +113,9 @@ QTTest::~QTTest()
 void QTTest::on_pushButton_clicked()
 {
     // Print destination location
-    ui->label->setText(QString::number(destinationMarker->pos().x()) + ", " + QString::number(destinationMarker->pos().y()));
-    destinationVertex.setVertex(destinationMarker->pos().x(),
-                                destinationMarker->pos().y()
+    ui->label->setText(QString::number(destinationMarker->pos().x()+ DMWIDTH/2) + ", " + QString::number(destinationMarker->pos().y()+ DMWIDTH/2));
+    destinationVertex.setVertex(destinationMarker->pos().x() + DMWIDTH/2,
+                                destinationMarker->pos().y() + DMWIDTH/2
                                 );
 }
 
@@ -112,7 +131,7 @@ void QTTest::seekLocation()
 QGraphicsLineItem* QTTest::drawLine(Vertex &c1, Vertex &c2)
 {
     QPen redPen(Qt::red);
-    redPen.setWidth(3);
-    return scene -> addLine(c1.getX(),c1.getY(),c2.getX(),c2.getY(),redPen);;
+    redPen.setWidth(5);
+    return scene -> addLine(c1.getX(),c1.getY(),c2.getX(),c2.getY(),redPen);
 }
 
