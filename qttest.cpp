@@ -8,8 +8,14 @@ QTTest::QTTest(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QTTest)
 {
+
+    QBrush redBrush(Qt::red);
+    QBrush blueBrush(Qt::blue);
+    QBrush greenBrush(Qt::green);
+    QPen blackPen(Qt::black);
+
     Graph g;
-    vector<Vertex> list;
+    vector<Vertex> vertexList;
     g.addVertex(Coor(150,165)); // Z06 Kapi
     g.addVertex(Coor(180,164));
     g.addVertex(Coor(179,133));
@@ -43,17 +49,12 @@ QTTest::QTTest(QWidget *parent) :
     g.addVertex(Coor(356,117)); // Arka Cikis Onu
     g.addVertex(Coor(310,98)); // Z02 Kapi
 
-    list = g.getVertexList();
+    vertexList = g.getVertexList();
 
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    QBrush redBrush(Qt::red);
-    QBrush blueBrush(Qt::blue);
-    QBrush greenBrush(Qt::green);
-
-    QPen blackPen(Qt::black);
     blackPen.setWidth(6);
 
     // Add Map First
@@ -71,9 +72,15 @@ QTTest::QTTest(QWidget *parent) :
     locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
 
     // Create Node Locations Marker
-    for(uint i = 0; i < list.size(); ++i)
+    for(uint i = 0; i < vertexList.size(); ++i)
     {
-        nodeLocationsMarker = scene -> addEllipse(list[i].getX(), list[i].getY(),25,25,blackPen,greenBrush);
+        nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX(), vertexList[i].getY(),25,25,blackPen,greenBrush);
+    }
+    for(uint i = 0; i < vertexList.size()-1; ++i)
+    {
+        // Add Line for Edges
+        drawLine(vertexList[i],vertexList[i+1] );
+
     }
 
     //seekLocation();
@@ -101,3 +108,11 @@ void QTTest::seekLocation()
                 );
     // Get location from hardware
 }
+
+QGraphicsLineItem* QTTest::drawLine(Vertex &c1, Vertex &c2)
+{
+    QPen redPen(Qt::red);
+    redPen.setWidth(3);
+    return scene -> addLine(c1.getX(),c1.getY(),c2.getX(),c2.getY(),redPen);;
+}
+

@@ -10,6 +10,7 @@
 #include <QGraphicsPixmapItem>
 #include "Vertex.h"
 
+
 namespace Ui {
 class QTTest;
 }
@@ -20,6 +21,7 @@ class QTTest : public QMainWindow
 
 public:
     void seekLocation(); // Get User Location from hardware
+    QGraphicsLineItem *drawLine(Vertex &c1, Vertex &c2); // Draw A line between 2 coordinates
     explicit QTTest(QWidget *parent = 0);
     ~QTTest();
 
