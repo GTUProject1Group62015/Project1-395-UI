@@ -9,7 +9,7 @@
 #include <QGraphicsPolygonItem>
 #include <QGraphicsPixmapItem>
 #include "Vertex.h"
-
+#include "Graph.h"
 
 namespace Ui {
 class QTTest;
@@ -35,8 +35,9 @@ private:
     QGraphicsPolygonItem *locationMarker;
     QGraphicsEllipseItem *nodeLocationsMarker;
     QGraphicsPixmapItem *planPixmap;
-    Vertex locationVertex;
-    Vertex destinationVertex;
+    Graph g;
+    Vertex *locationVertex;
+    Vertex *destinationVertex;
 
 };
 

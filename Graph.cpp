@@ -11,6 +11,11 @@
 #include <cstddef>
 using namespace std;
 
+/*
+       addVertex now returns vertex pointer
+*/
+
+
 Graph::Graph(bool direct = true, int num = 0) :
 		directed(direct), numV(num) {
 	vector<Edge> e;
@@ -121,7 +126,7 @@ vector<Vertex> Graph::shortestPath(Vertex start, Vertex finish) {
 }
 
 /** add vertex*/
-Vertex& Graph::addVertex(Coor coor) {
+Vertex* Graph::addVertex(Coor coor) {
 	int source_coor_index = -1;
 	for (unsigned int i = 0; i < vertexList.size(); ++i) {
 		if (source_coor_index == -1 && vertexList[i].getX() == coor.x
@@ -138,9 +143,9 @@ Vertex& Graph::addVertex(Coor coor) {
 		source_coor_index = numV;
 		vertexList.push_back(Vertex(source_coor_index, coor));
 		++numV;
-		return vertexList[numV - 1];
+        return &vertexList[numV - 1];
     }
-    Vertex a;
+    Vertex *a;
     return a;
 }
 

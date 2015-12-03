@@ -2,9 +2,10 @@
 #include "ui_qttest.h"
 #include "Graph.h"
 
-#define MAPPATH "C:/Users/bertugg/Documents/QTWorkspace/QTTest/Project1-395-UI/KatPlaniPP.jpg"
-#define DMWIDTH 40 // Destination Marker Width
+#define MAPPATH "C:/Users/bertugg/Documents/QTWorkspace/QTTest/Project1-395-UI/MapBigSketch.jpg"
+#define DMWIDTH 35 // Destination Marker Width
 #define NLWIDTH 25 // Node Location Marker Width
+#define DEVELOPERMODE false
 
 QTTest::QTTest(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +17,6 @@ QTTest::QTTest(QWidget *parent) :
     QBrush greenBrush(Qt::green);
     QPen blackPen(Qt::black);
 
-    Graph g;
     vector<Vertex> vertexList;
     g.addVertex(Coor(150,165)); // Z06 Kapi
     g.addVertex(Coor(180,164));
@@ -52,6 +52,10 @@ QTTest::QTTest(QWidget *parent) :
     g.addVertex(Coor(310,98)); // Z02 Kapi
     vertexList = g.getVertexList(); // Refers all vertexes
 
+
+    g.setEdge(vertexList[0],vertexList[1]);
+    g.setEdge(vertexList[1],vertexList[2]);
+    g.setEdge(vertexList[1],vertexList[3]);
     /*
     g.add(Coor(150,165),Coor(180,164));
     g.add(Coor(180,164),Coor(179,133));
@@ -77,8 +81,7 @@ QTTest::QTTest(QWidget *parent) :
     // Create Destination Marker on map
     destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
     destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
-    destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2,
-                                         destinationMarker->pos().y() + DMWIDTH/2));
+    destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
 
     // Create User Location Marker
     locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
@@ -86,22 +89,27 @@ QTTest::QTTest(QWidget *parent) :
     locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
 
     // Create Node Locations Marker
-    for(uint i = 0; i < vertexList.size(); ++i)
+    if(DEVELOPERMODE)
     {
-        nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX()-NLWIDTH/2,
-                                                  vertexList[i].getY()-NLWIDTH/2,
-                                                  NLWIDTH,
-                                                  NLWIDTH,
-                                                  blackPen,
-                                                  greenBrush);
+        for(uint i = 0; i < vertexList.size(); ++i)
+        {
+            nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX()-NLWIDTH/2,
+                                                      vertexList[i].getY()-NLWIDTH/2,
+                                                      NLWIDTH,
+                                                      NLWIDTH,
+                                                      blackPen,
+                                                      greenBrush);
+        }
     }
+    /*
+    // Draw lines between all vertexes
     for(uint i = 0; i < vertexList.size()-1; ++i)
     {
         // Add Line for Edges
         drawLine(vertexList[i],vertexList[i+1] );
 
     }
-
+    */
     //seekLocation();
 }
 
@@ -113,18 +121,29 @@ QTTest::~QTTest()
 void QTTest::on_pushButton_clicked()
 {
     // Print destination location
-    ui->label->setText(QString::number(destinationMarker->pos().x()+ DMWIDTH/2) + ", " + QString::number(destinationMarker->pos().y()+ DMWIDTH/2));
-    destinationVertex.setVertex(destinationMarker->pos().x() + DMWIDTH/2,
-                                destinationMarker->pos().y() + DMWIDTH/2
-                                );
+    //ui->label->setText(QString::number(destinationMarker->pos().x()+ DMWIDTH/2) + ", " + QString::number(destinationMarker->pos().y()+ DMWIDTH/2));
+
+
+    destinationVertex->setVertex(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
+    locationVertex->setVertex(locationMarker->pos().x(), locationMarker->pos().y());
+
+    ui->label->setText("destination vertex = " + QString::number(destinationVertex->getX()) + ", " + QString::number(destinationVertex->getY()));
+
+    // Draw lines between all vertexes
+    for(uint i = 0; i < g.getVertexList().size()-1; ++i)
+    {
+        // Add Line for Edges
+        drawLine(g.getVertexList()[i], g.getVertexList()[i+1]);
+    }
 }
 
 void QTTest::seekLocation()
 {
     ui->label->setText("Seeking User Location...");
-    locationVertex.setVertex(locationMarker->pos().x(), // get it from Server
+    locationVertex->setVertex(locationMarker->pos().x(), // get it from Server
                              locationMarker->pos().y()
                 );
+
     // Get location from hardware
 }
 
