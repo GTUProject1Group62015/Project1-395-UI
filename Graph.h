@@ -59,6 +59,11 @@ public:
 	 */
 	Edge getEdge(int source, int dest) const;
 
+	/**	get edge list
+	 * 	@return return edge list
+	 */
+	inline vector<vector<Edge> >& getData(){return data;}
+
 	/** insert a new edge into the graph, if given source and dest Coor exist,
 	 * no addition
 	 * @param source The source coordinate
@@ -74,13 +79,29 @@ public:
 	vector<Vertex> shortestPath(Vertex start, Vertex finish);
 
 	/** add vertex,if addition is successful, return this Vertex reference,else returns 0*/
-    Vertex* addVertex(Coor coor);
+	Vertex* addVertex(Coor coor);
 
 	/** set edge */
 	bool setEdge(Vertex vSource,Vertex vDest);
 
 	/*set given vertex,no return value*/
 	void setVertex(Vertex &v,Coor newCoor);
+
+	/**remove connection of given Vertex,return true if successful*/
+	bool removeEdge(Vertex &v);
+
+	/**
+	 * @param list vertex list
+	 * @param node target node
+	 * @return return nearest vertex index
+	 */
+	int nearestVertex(vector<Vertex> list,Vertex node);
+	
+		/**
+	*@param list vertex list
+	*@return Edge list
+	*/
+	vector<Edge> getEdgeList(vector<Vertex> list);
 
 private:
 	int directed;

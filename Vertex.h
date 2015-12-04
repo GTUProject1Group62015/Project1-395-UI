@@ -19,7 +19,7 @@ class Vertex {
 public:
 	/*default constructors*/
 	Vertex() :
-			vertex_no(-1), coor_x(-1), coor_y(-1) {
+			vertex_no(-1), coor_x(-1), coor_y(-1){
 	}
 
 	Vertex(int no, int x, int y) :
@@ -40,8 +40,8 @@ public:
 		return vertex_no;
 	}
 
-    inline void setVertex(int x, int y) {
-        coor_x = x, coor_y = y;
+	inline void setVertex( int x, int y) {
+		coor_x = x, coor_y = y;
 	}
 	inline bool operator==(const Vertex &a) const {
 		if ((this->coor_x == a.coor_x) && (this->coor_y == a.coor_y)) {
@@ -50,9 +50,9 @@ public:
 		return false;
 	}
 private:
-	int vertex_no;
-	int coor_x;
-	int coor_y;
+	int vertex_no;/*vertex id*/
+	int coor_x;/*x coordinate value*/
+	int coor_y;/*y coordinate value*/
 
 };
 

@@ -9,12 +9,8 @@
 #include "Edge.h"
 #include "DijkstrasAlgorithm.h"
 #include <cstddef>
+#include <cmath>
 using namespace std;
-
-/*
-       addVertex now returns vertex pointer
-*/
-
 
 Graph::Graph(bool direct = true, int num = 0) :
 		directed(direct), numV(num) {
@@ -143,10 +139,9 @@ Vertex* Graph::addVertex(Coor coor) {
 		source_coor_index = numV;
 		vertexList.push_back(Vertex(source_coor_index, coor));
 		++numV;
-        return &vertexList[numV - 1];
-    }
-    Vertex *a;
-    return a;
+		return &vertexList[numV - 1];
+	}
+	return NULL;
 }
 
 /** set edge */
@@ -169,5 +164,49 @@ bool Graph::setEdge(Vertex vSource, Vertex vDest) {
 }
 
 void Graph::setVertex(Vertex &v, Coor newCoor) {
-    v.setVertex(newCoor.x, newCoor.y);
+	v.setVertex(newCoor.x, newCoor.y);
+}
+
+bool Graph::removeEdge(Vertex &v){
+	if(data.size()<=(unsigned int)v.getNo())
+	{
+		return false;
+	}
+	data[v.getNo()].clear();
+	return true;
+}
+
+vector<Edge> Graph::getEdgeList(vector<Vertex> list)
+{
+	vector<Edge> edgeList;
+	for(unsigned int i=0;i<list.size()-1;i++)
+	{
+		edgeList.push_back(getEdge(list[i].getNo(), list[i+1].getNo()));
+	}
+	return edgeList;
+}
+
+int Graph::nearestVertex(vector<Vertex> list,Vertex node)
+{
+	int nearestX;
+	int nearestY;
+	int index=0;
+
+	nearestX=fabs(node.getX()-list.at(0).getX());
+	nearestY=fabs(node.getX()-list.at(0).getY());
+
+	for(unsigned int i=1; i<list.size();i++)
+	{
+		if(abs(node.getX()-list.at(i).getX() )<nearestX)
+		{
+			if(abs(node.getY()-list.at(i).getY() )<nearestY)
+			{
+				nearestX=abs(node.getX()-list.at(i).getX() );
+				nearestY=abs(node.getY()-list.at(i).getY() );
+				index=i;
+			}
+		}
+	}
+
+	return index;
 }

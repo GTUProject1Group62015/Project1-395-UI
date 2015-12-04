@@ -1,8 +1,9 @@
 #include "qttest.h"
 #include "ui_qttest.h"
 #include "Graph.h"
+#include <QGraphicsItemGroup>
 
-#define MAPPATH "C:/Users/bertugg/Documents/QTWorkspace/QTTest/Project1-395-UI/MapBigSketch.jpg"
+#define MAPPATH "C:/Users/bertugg/Documents/QTWorkspace/QTTest/Project1-395-UI/KatPlaniPP.jpg"
 #define DMWIDTH 35 // Destination Marker Width
 #define NLWIDTH 25 // Node Location Marker Width
 #define DEVELOPERMODE false
@@ -129,21 +130,20 @@ void QTTest::on_pushButton_clicked()
 
     ui->label->setText("destination vertex = " + QString::number(destinationVertex->getX()) + ", " + QString::number(destinationVertex->getY()));
 
+    clearLines();
     // Draw lines between all vertexes
     for(uint i = 0; i < g.getVertexList().size()-1; ++i)
     {
         // Add Line for Edges
-        drawLine(g.getVertexList()[i], g.getVertexList()[i+1]);
+        QGraphicsLineItem *line;
+        line = drawLine(g.getVertexList()[i], g.getVertexList()[i+1]);
+        drawedLines.push_front(line);
     }
 }
 
 void QTTest::seekLocation()
 {
     ui->label->setText("Seeking User Location...");
-    locationVertex->setVertex(locationMarker->pos().x(), // get it from Server
-                             locationMarker->pos().y()
-                );
-
     // Get location from hardware
 }
 
@@ -154,3 +154,11 @@ QGraphicsLineItem* QTTest::drawLine(Vertex &c1, Vertex &c2)
     return scene -> addLine(c1.getX(),c1.getY(),c2.getX(),c2.getY(),redPen);
 }
 
+void QTTest::clearLines()
+{
+    for(int i = 0; i < drawedLines.size(); ++i)
+    {
+        scene->removeItem(drawedLines[i]);
+        scene->update();
+    }
+}
