@@ -167,6 +167,7 @@ void Graph::setVertex(Vertex &v, Coor newCoor) {
 	v.setVertex(newCoor.x, newCoor.y);
 }
 
+
 bool Graph::removeEdge(Vertex &v){
 	if(data.size()<=(unsigned int)v.getNo())
 	{
@@ -176,33 +177,36 @@ bool Graph::removeEdge(Vertex &v){
 	return true;
 }
 
-vector<Edge> Graph::getEdgeList(vector<Vertex> list)
+vector<Edge> Graph::getEdgeList(const vector<Vertex> & list)
 {
+	vector<Vertex> sortestPath();
 	vector<Edge> edgeList;
 	for(unsigned int i=0;i<list.size()-1;i++)
 	{
 		edgeList.push_back(getEdge(list[i].getNo(), list[i+1].getNo()));
 	}
 	return edgeList;
-}
+} 
 
-int Graph::nearestVertex(vector<Vertex> list,Vertex node)
+
+
+int Graph::nearestVertex(Vertex node)
 {
 	int nearestX;
 	int nearestY;
 	int index=0;
 
-	nearestX=fabs(node.getX()-list.at(0).getX());
-	nearestY=fabs(node.getX()-list.at(0).getY());
+	nearestX=fabs(node.getX()-vertexList.at(0).getX());
+	nearestY=fabs(node.getX()-vertexList.at(0).getY());
 
-	for(unsigned int i=1; i<list.size();i++)
+	for(unsigned int i=1; i<vertexList.size();i++)
 	{
-		if(abs(node.getX()-list.at(i).getX() )<nearestX)
+		if(abs(node.getX()-vertexList.at(i).getX() )<nearestX)
 		{
-			if(abs(node.getY()-list.at(i).getY() )<nearestY)
+			if(abs(node.getY()-vertexList.at(i).getY() )<nearestY)
 			{
-				nearestX=abs(node.getX()-list.at(i).getX() );
-				nearestY=abs(node.getY()-list.at(i).getY() );
+				nearestX=abs(node.getX()-vertexList.at(i).getX() );
+				nearestY=abs(node.getY()-vertexList.at(i).getY() );
 				index=i;
 			}
 		}
@@ -210,3 +214,171 @@ int Graph::nearestVertex(vector<Vertex> list,Vertex node)
 
 	return index;
 }
+
+int Graph::findRotation(Vertex source, Vertex next, double rotation)
+{
+
+	double m; //egim
+	double y;
+	double x;
+
+	//y=( next.getY()-source.getY() );
+	//x=(next.getX()-source.getX());
+
+	//m= y/x;
+
+
+
+
+	//next source un solundaysa
+
+	if(next.getX()<source.getX() && next.getY()==source.getY())
+	{
+
+
+		if((rotation>BATI -15) && (rotation < BATI +15))
+		{
+			return 2;
+		}
+		else if(rotation>=ZERO && rotation<DOGU)
+		{
+			return 1;
+		}
+		else if(rotation>BATI && rotation<=KUZEY)
+		{
+			return 1;
+		}
+		else if(rotation>=GUNEY && rotation<BATI)
+		{
+			return 3;
+		}
+		else if(rotation>=DOGU && rotation<GUNEY)
+		{
+			return 3;
+		}
+
+	}
+
+	//next source un ilerisindeyse --> haritada yukarisindaysa
+
+	else if(next.getX()==source.getX() && next.getY()<source.getY())
+	{
+		if((rotation>KUZEY -15) || (rotation< ZERO +15))
+		{
+			return 2;
+		}
+		else if(rotation>ZERO && rotation<DOGU)
+		{
+			return 1;
+		}
+		else if(rotation>=BATI && rotation<KUZEY)
+		{
+			return 3;
+		}
+		else if(rotation>=GUNEY && rotation<BATI)
+		{
+			return 3;
+		}
+		else if(rotation>=DOGU && rotation<GUNEY)
+		{
+			return 1;
+		}
+	}
+
+	//next source un sagindaysa
+
+	else if(next.getX()>source.getX() && next.getY()==source.getY())
+	{
+		if((rotation>DOGU -15) && (rotation < DOGU +15))
+		{
+			return 2;
+		}
+		else if(rotation>=ZERO && rotation<DOGU)
+		{
+			return 3;
+		}
+		else if(rotation>=BATI && rotation<=KUZEY)
+		{
+			return 3;
+		}
+		else if(rotation>=GUNEY && rotation<BATI)
+		{
+			return 1;
+		}
+		else if(rotation>DOGU && rotation<GUNEY)
+		{
+			return 1;
+		}
+	}
+
+	//next source un gerisindeyse --> haritada asagisinda
+
+	else if(next.getX()==source.getX() && next.getY()>source.getY())
+	{
+		if((rotation>GUNEY -15) && (rotation < GUNEY +15))
+		{
+			return 2;
+		}
+		else if(rotation>=ZERO && rotation<DOGU)
+		{
+			return 3;
+		}
+		else if(rotation>=BATI && rotation<=KUZEY)
+		{
+			return 1;
+		}
+		else if(rotation>GUNEY && rotation<BATI)
+		{
+			return 1;
+		}
+		else if(rotation>=DOGU && rotation<GUNEY)
+		{
+			return 3;
+		}
+	}
+
+	return 0;
+}
+
+int Graph::moveRotation(Vertex source, Vertex next)
+{
+	if(next.getX()==source.getX() && next.getY()==source.getY())
+	{
+		return 5;
+	}
+	else
+	{
+		return 4;
+	}
+}
+
+/*void moveCompass(void)
+{
+	double rotation;
+
+	while(true)
+	{
+		cin>>rotation;
+
+		while( i<list.size() )
+		{
+			findRotation(list[i] , list[i+1], rotation)
+			if(rotation==2) //yon dogru
+				i++;
+		}
+	}
+}
+*/
+
+vector<Edge> Graph::getAllEdge(){
+	vector<Edge> result;
+	for(unsigned int i = 0 ;i<data.size();++i)
+	{
+		for(unsigned int j =0;j<data[i].size();++j)
+		{
+			result.push_back(data[i][j]);
+		}
+	}
+	return result;
+}
+

@@ -23,7 +23,7 @@ class QTTest : public QMainWindow
 public:
     void seekLocation(); // Get User Location from hardware
     void clearLines(); // Clear all drawed lines
-    QGraphicsLineItem *drawLine(Vertex &c1, Vertex &c2); // Draw A line between 2 coordinates
+    QGraphicsLineItem *drawLine(Vertex &c1, Vertex &c2, QPen pen); // Draw A line between 2 coordinates
     explicit QTTest(QWidget *parent = 0);
     ~QTTest();
 
@@ -41,7 +41,6 @@ private:
     Graph g;
     Vertex *locationVertex;
     Vertex *destinationVertex;
-
 
 };
 

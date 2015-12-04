@@ -71,10 +71,10 @@ public:
 	}
 
 	/* get source vertex*/
-	inline Vertex getSourceVertex(){return source;}
+	inline Vertex& getSourceVertex(){return source;}
 
 	/* get dest vertex*/
-	inline Vertex getDestVertex(){return dest;}
+	inline Vertex& getDestVertex(){return dest;}
 
 	/* get slope*/
 	inline double getSlope(){return m;}
