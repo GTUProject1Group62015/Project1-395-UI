@@ -3,7 +3,7 @@
 #include "Graph.h"
 #include <QGraphicsItemGroup>
 
-#define MAPPATH "C:/Users/bertugg/Documents/QTWorkspace/QTTest/Project1-395-UI/KatPlaniPP.jpg"
+#define MAPPATH "C:/Users/test/Documents/GitHub/Project1-395-UI/KatPlaniPP.jpg"
 #define DMWIDTH 35 // Destination Marker Width
 #define NLWIDTH 15 // Node Location Marker Width
 #define DEVELOPERMODE true
@@ -120,6 +120,64 @@ QTTest::QTTest(QWidget *parent) :
     }
     */
     //seekLocation();
+
+
+    QPixmap pix(1000,1000);
+    pix.fill(Qt::transparent);
+
+    QPainter painter(&pix);
+
+    painter.setBrush(QColor(0, 255, 0, 127));
+    //painter.drawRect(20, 12, 215, 178); //1. bolge
+    //painter.drawRect(20, 184, 240, 185); //2. bolge
+    //painter.drawRect(32, 375, 230, 137); //3. bolge
+    //painter.drawRect(20, 510, 250, 180); //4. bolge
+    //painter.drawRect(260, 510, 200, 145); //5. bolge
+    //painter.drawRect(460, 510, 240, 180); //6. bolge
+    //painter.drawRect(420, 380, 280, 140); //7. bolge
+    //painter.drawRect(456, 189, 260, 190); //8. bolge
+    //painter.drawRect(518, 12, 180, 190); //9. bolge
+    //painter.drawRect(392, 16, 125, 180); //10. bolge
+    //painter.drawRect(215, 16, 185, 180); //11. bolge
+    //painter.drawRect(0, 0, width()/2, height());
+
+
+    vector<Area> colorAreaPoint;
+
+    Area point1 (20, 12, 215, 178);
+    colorAreaPoint.push_back(point1);
+    Area point2(20, 184, 240, 185);
+    colorAreaPoint.push_back(point2);
+    Area point3 (32, 375, 230, 137);
+    colorAreaPoint.push_back(point3);
+    Area point4 (20, 510, 250, 180);
+    colorAreaPoint.push_back(point4);
+    Area point5 (260, 510, 200, 145);
+    colorAreaPoint.push_back(point5);
+    Area point6 (460, 510, 240, 180);
+    colorAreaPoint.push_back(point6);
+    Area point7 (420, 380, 280, 140);
+    colorAreaPoint.push_back(point7);
+    Area point8 (456, 189, 260, 190);
+    colorAreaPoint.push_back(point8);
+    Area point9 (518, 12, 180, 190);
+    colorAreaPoint.push_back(point9);
+    Area point10 (392, 16, 125, 180);
+    colorAreaPoint.push_back(point10);
+    Area point11 (215, 16, 185, 180);
+    colorAreaPoint.push_back(point11);
+
+
+    int veri=3;
+    //Bölge id si denemesi icin veri degiskeni kullanilmistir
+
+   //Hangi bolge gelirse veri olarak onu boyar
+    painter.drawRect(colorAreaPoint.at(veri-1).x, colorAreaPoint.at(veri-1).y, colorAreaPoint.at(veri-1).width, colorAreaPoint.at(veri-1).height);
+
+    scene -> addPixmap(pix);
+
+
+
 }
 
 QTTest::~QTTest()
@@ -175,3 +233,4 @@ void QTTest::clearLines()
         scene->update();
     }
 }
+

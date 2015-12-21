@@ -11,6 +11,8 @@
 #include <QGraphicsPixmapItem>
 #include "Vertex.h"
 #include "Graph.h"
+#include <QPainter>
+#include "Area.h"
 
 namespace Ui {
 class QTTest;

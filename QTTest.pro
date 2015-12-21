@@ -21,6 +21,7 @@ HEADERS  += qttest.h \
     DijkstrasAlgorithm.h \
     Edge.h \
     Graph.h \
-    Vertex.h
+    Vertex.h \
+    Area.h
 
 FORMS    += qttest.ui
