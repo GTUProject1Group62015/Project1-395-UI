@@ -6,7 +6,20 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QTTest w;
-    w.show();
+    try
+    {
+
+
+        w.show();
+
+
+    }
+    catch(...) /* ysa dan sevgiler*/
+    {
+    ::close(w.socketDescriptor);
+    }
+
 
     return a.exec();
+
 }
